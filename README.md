@@ -13,11 +13,18 @@
 * finding tables that should be REPLICATE
 * building missing indexes and stats overnight
 
+### Protecting your data
+
+* external security control
+* implementing GDPR
+* implementing MASKING
+
 ### SYNAPSE Gotchas
 
 * configuring DB logging
 * Table Rebuild fun
 * BAD BAD HEAPS (duplicate rows)
+* inefficient joins (ragged snowflake is bad)
 
 ### Useful Patterns
 
@@ -36,6 +43,9 @@
 * ADF Multiple Where
 * only letting one instance of a pieline run...
 * instance to instance data mover
+* when logic apps rebel (ranodm network failures)
+* when the database loses track of its bits (login failures)
+
 
 ### Patterns and Architecture
 
