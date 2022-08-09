@@ -53,6 +53,7 @@
 * validation (queues are your friend)
 * validation is not easy
 * Production is your friend
+* Deploy in sections (good in so many ways)
 * security management
 * data masking
 * GDPR
