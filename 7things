@@ -1,0 +1,39 @@
+7 things I wish i had Known
+
+(There are actually ten but I've only got time for the first 7)
+
+
+1.  be very careful when you pause, cos ometimes it isn't coming back. Note that a scale is a Pause followed by a restore
+
+2.  HEAP (REBUILD ALL after truncating a HEAP) (load lots of stuff and it'll hurt) The database will expand like a middle aged man
+
+3.  Workgroup management use multiple logins in your ADF
+	Watch out for long running returns
+	you can reconfigure during the day
+
+4.  ADF (lets run that lots of times) (singleton pattern)
+
+5.  Concurrency will kill you (stop faffing about with the small fry settings) everyone forgets this
+
+6.  Backps/restores (who what, why when how, BKP sproc, ext BKP sproc)
+
+7.  Random network failures RETRY is your friend
+	(also running out of temp DB) 
+
+8.  materialise the DMV's 
+	(deploys on busy environments are hard) 
+	rebuilding indexes/stats
+
+9.  ragged snowflake joins are bad bad bad bad bad
+
+10.	NVARCHAR(MAX) is a LEAD boot
+
+11. Don't distribute on a column you update! Seriously this is really really bad!
+
+12. Don't replicate like a crazy person
+
+13. Don't forget you can cluster stuff (CCI isn't the answer to everything)
+
+14. Use a TEMP schema for CTAS
+
+15. CETAS is just awesomely fast and Databricks loves those Parquet files
