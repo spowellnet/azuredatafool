@@ -1,39 +1,89 @@
-7 things I wish i had Known
+7 things I wish I had Known
 
-(There are actually ten but I've only got time for the first 7)
+(There are actually way more but I've only got time for the first 7)
 
+Top level outline
+Netezza & Informatica to Azure & ADF
+ELT (we COPY and then run sprocs)
+4000 tables, 
+1200 overnight loads
+1200 static historic tables
+200 DIMs
+120 integrations/extracts
 
-1.  be very careful when you pause, cos ometimes it isn't coming back. Note that a scale is a Pause followed by a restore
+profile of the table sizes needed
 
-2.  HEAP (REBUILD ALL after truncating a HEAP) (load lots of stuff and it'll hurt) The database will expand like a middle aged man
+We run at 3k most of the time and 6k some of the time. Especially during dev/backload etc.
 
-3.  Workgroup management use multiple logins in your ADF
-	Watch out for long running returns
-	you can reconfigure during the day
+We load lots of stuff and then run a lot of DWH processes as stored procs (complicated dependency tree)
+use an ADF framework, procFWK by Paul Andrew and whatsisface
 
-4.  ADF (lets run that lots of times) (singleton pattern)
+--
+
+This is not Synapse, its ADF and a Dedicated Pool
+
+1.  be very careful when you pause, cos sometimes it isn't coming back. Note that a scale is a Pause followed by a restore.
+	mention the process for killing active queries
+	also mention the size of open transactions and the temp DB via the DMV's (add queries for sys metrics)
+
+2.  HEAP (REBUILD ALL after truncating a HEAP) (load lots of stuff and it'll hurt) 
+	MS recommend using HEAPS for loads, if you are thrashing the load it'll hurt
+	The database will expand like a middle aged man (show the various queries)
+
+3.  Workgroup management use multiple logins in your ADF 
+	-- pass secret names in as config, secrets are connection strings, sql logins get routed into different workload groups
+	(big and small at a minimum, different load processes need different resources (especially our sprocs)
+	Watch out for long running returns (they're a killer) write yourself some sprocs to look at the DMV's easily
+	you can reconfigure your workload groups during the day (as you only have 8)
+
+4.  ADF (lets run that lots of times) (singleton pattern is needed)
+	ADF loses track of what it's doing, when it's running one of your sprocs this is a bad thing
+	The term used by MS is idempotent (they miss off the singleton thing)
+	Show the sequence of events
+	Sproc for testing this is nice and simple
 
 5.  Concurrency will kill you (stop faffing about with the small fry settings) everyone forgets this
+	3000 and 6000 are the keys, bigger gets faster, the intermediates are pointless
+	less than 500 use a conventional SQL instance
 
-6.  Backps/restores (who what, why when how, BKP sproc, ext BKP sproc)
+6.  Backups/restores (who what, why when how, BKP sproc, ext BKP sproc)
+	restore points are not nearly as useful as MS likes to think
+	geo redundancy is entirely pointless and expensive (for us)
+	backing up a single table is great
+	restores can be unpredictable (DTU quota what the fuck is that about?)
 
 7.  Random network failures RETRY is your friend
 	(also running out of temp DB) 
+	Some of this is really bad practice
 
-8.  materialise the DMV's 
+8.  materialise the DMV's (stats and index maintenance are really important) but the DMV's are not quick on big environments and schema compares just don't work on busy environments
 	(deploys on busy environments are hard) 
 	rebuilding indexes/stats
 
 9.  ragged snowflake joins are bad bad bad bad bad
+	also GETDATE
+	-- demo some examples
 
 10.	NVARCHAR(MAX) is a LEAD boot
+	KILL them all
 
 11. Don't distribute on a column you update! Seriously this is really really bad!
+	The one and only time we got the damn thing into an unrecoverable state
 
 12. Don't replicate like a crazy person
+	Hurts you on scale, also hurts you on initial create/first query
 
 13. Don't forget you can cluster stuff (CCI isn't the answer to everything)
+	It';s still there, it still works, it's still fast
 
 14. Use a TEMP schema for CTAS
+	Note use a DELETE SPROC
+	that way you can exclude it from your DB project without everything breaking
 
 15. CETAS is just awesomely fast and Databricks loves those Parquet files
+	it really really does (environment to environment transfers this way are  the only way to go)
+
+16. Deploy strategies (big big changes are just painful)
+	timeout window, resource locks, big redists
+	make yourself a scheduler process that will just run a bunch of SQL files (test the SQL files first)
+	
