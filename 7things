@@ -87,3 +87,6 @@ This is not Synapse, its ADF and a Dedicated Pool
 	timeout window, resource locks, big redists
 	make yourself a scheduler process that will just run a bunch of SQL files (test the SQL files first)
 	
+17. Write only patterns.
+	STG --> Current rows --> Historic Rows (View of all is UNION ALL of current and historic)
+	
