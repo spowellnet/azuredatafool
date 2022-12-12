@@ -52,6 +52,9 @@ use an ADF framework, procFWK by Paul Andrew and whatsisface
 	geo redundancy is entirely pointless and expensive (for us)
 	backing up a single table is great
 	restores can be unpredictable (DTU quota what the fuck is that about?)
+	when doing a restore, have been told scale of new target doesn't matter.
+	restore to new endpoint and then RENAME to flip them around
+	
 
   7.  Random network failures RETRY is your friend
 	(also running out of temp DB) 
@@ -92,3 +95,9 @@ use an ADF framework, procFWK by Paul Andrew and whatsisface
 	STG --> Current rows --> Historic Rows (View of all is UNION ALL of current and historic)
 	
   18. Netezzas hidden columns	
+  	https://dwgeek.com/netezza-internal-datatypes-rowid-transactionid-datasliceid.html/
+	rowid		rowid			speical unque row ident
+	transaction ID	Createxid		rowversion
+			deletexid
+
+	dataslice	datasliceid		internal distribution magic
