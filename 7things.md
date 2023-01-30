@@ -6,10 +6,10 @@
 
   Netezza & Informatica to Azure & ADF
   ELT (we COPY and then run sprocs)
-  4000 tables, 
-  1200 overnight loads
+  5000 tables, 
+  1200 overnight loads  (STG tbles 1200)
   1200 static historic tables
-  200 DIMs
+  200 DIMs (lots of TEMP tables)
   120 integrations/extracts
 
 *add profile of the table sizes needed*
@@ -101,3 +101,22 @@ use an ADF framework, procFWK by Paul Andrew and whatsisface
 			deletexid
 
 	dataslice	datasliceid		internal distribution magic
+
+
+  19. DecoupledQueues
+	Explanation
+
+  20. Masking Data
+  
+	ToDo::	Pull Security DB codebase
+	ToDo::	Pull Purview classification powershell
+	
+	BIG FAT META DATA STUFF
+	
+	
+  21. Surrogate key management
+	
+  22. Dynamic mapping in ADF data flows
+  
+	
+	
